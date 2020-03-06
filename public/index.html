@@ -68,7 +68,7 @@
         </nav>
     </div>
     <form class="form-inline">
-        <input class="form-control mr-sm-2" type="text" placeholder="Encontrar" aria-label="Search">
+        <input class="form-control mr-sm-2" id="seardId" type="text" placeholder="Encontrar" oninput="seachCountry()" aria-label="Search">
     </form>
 </nav>
 
@@ -142,15 +142,11 @@
 </div>
 
 
-
-
-
-
-
-
-    <script>
+    <script  >
         var item = document.getElementById('index');
-        const coutries = {};
+       
+       var countries = [];
+      
         fetch('https://restcountries.eu/rest/v2/all')
 
             .then(response => response.json())
@@ -161,9 +157,16 @@
 
                 json.forEach(function (element) {
 
+
+
+
                     item.innerHTML += "<tr><th scope='row'> <img src='"+element.flag+"' width='24' height='24'/></th ><td>"+element.name+"</td><td>"+element.capital+"</td><td>"+element.region+"</t><td>"+element.subregion+"</td><td>"+element.population+"</td><td>"+element.area+"</td><td>"+element.timezones[0]+"</td><td>"+element.nativeName+"</td></tr>";
 
+                       
                 });
+
+                countries =  json ; 
+                 exportToXls(json);
 
             })
 
@@ -176,6 +179,56 @@
             function stopLoader() {
                     var element = document.getElementById("loader");
                     element.classList.remove("loader");
+                }
+
+
+                function exportToXls(obj){
+                   var CsvString = "";
+
+                      obj.forEach(function (element) {
+
+                        CsvString += element.name+"\n";
+
+
+                    });
+                   
+                    CsvString = "data:application/csv," + encodeURIComponent(CsvString);
+                    var x = document.createElement("A");
+                    x.setAttribute("href", CsvString);
+                    x.setAttribute("download", "somedata.csv");
+                    document.body.appendChild(x);
+                    x.click();
+
+
+                }
+
+                function getCountry(countryInput ,  obj){
+
+                     obj.forEach(function (element) {
+
+                        if(element.name==countryInput || element.region == countryInput){
+                            console.log('Encontrei \n'+ element )
+                              item.innerHTML = "<tr><th scope='row'> <img src='" + element.flag + "' width='24' height='24'/></th ><td>" + element.name + "</td><td>" + element.capital + "</td><td>" + element.region + "</t><td>" + element.subregion + "</td><td>" + element.population + "</td><td>" + element.area + "</td><td>" + element.timezones[0] + "</td><td>" + element.nativeName + "</td></tr>";
+                            return element ; 
+
+                        }else{
+                             console.log('Nao encontrei')
+                        }
+
+
+                    });
+
+
+                    
+                }
+
+                function seachCountry(){
+
+                   var  input =  document.getElementById('seardId').value  ;
+                    const element =  getCountry(input, countries)
+                    var item2 = document.getElementById('index');
+                     item2.innerHTML = "<tr><th scope='row'> <img src='" + element.flag + "' width='24' height='24'/></th ><td>" + element.name + "</td><td>" + element.capital + "</td><td>" + element.region + "</t><td>" + element.subregion + "</td><td>" + element.population + "</td><td>" + element.area + "</td><td>" + element.timezones[0] + "</td><td>" + element.nativeName + "</td></tr>";
+
                 }
     </script>
 <footer>
@@ -197,8 +250,17 @@
 </footer>
 <script src="./js/popper.min.js"></script>
 <script src="./js/bootstrap.min.js"></script>
-<script src="./js/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js" 2
+    integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT"  crossorigin="anonymous">
+        
+    </script>
+
+<script src="js/xlsx.core.min.js"></script>
+
+<script src="js/FileSaver.js"></script>
+
 <script src="./js/main.js"></script>
+<script src="js/jhxlsx.js"></script>
 
 
 </body>

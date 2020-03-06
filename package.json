@@ -8,6 +8,7 @@
         "lodash.filter": "^4.6.0",
         "lodash.take": "^4.1.1",
         "request": "^2.79.0",
-        "vision": "^4.1.1"
+        "vision": "^4.1.1",
+        "xlsexport": "^1.5.2"
     }
 }
