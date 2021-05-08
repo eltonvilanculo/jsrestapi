@@ -3,7 +3,7 @@
     "description": "A sample app that demonstrates how to consume football-data RESTful API",
     "main": "server.js",
     "dependencies": {
-        "handlebars": "^4.0.6",
+        "handlebars": "^4.7.7",
         "hapi": "^16.0.2",
         "lodash.filter": "^4.6.0",
         "lodash.take": "^4.1.1",
